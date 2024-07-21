@@ -9,6 +9,8 @@
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.5",
+        "openspout/openspout": "^4.24",
+        "power-components/livewire-powergrid": "^5.10",
         "spatie/laravel-permission": "^6.9"
     },
     "require-dev": {
