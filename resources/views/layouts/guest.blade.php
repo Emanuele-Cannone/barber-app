@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="google-signin-client_id" content="696635356959-opnghokcsq6k6f3aosl9aiibsajl302u.apps.googleusercontent.com">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 

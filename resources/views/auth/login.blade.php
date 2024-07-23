@@ -44,4 +44,14 @@
             </x-primary-button>
         </div>
     </form>
+
+
+    <a href="{{ route('redirectToGoogle') }}" class="btn btn-primary">
+        Login with Google
+    </a>
+
 </x-guest-layout>
+
+
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+
