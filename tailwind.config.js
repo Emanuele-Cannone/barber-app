@@ -12,6 +12,10 @@ export default {
         './vendor/power-components/livewire-powergrid/src/Themes/Tailwind.php'
     ],
 
+    presets: [
+        require("./vendor/power-components/livewire-powergrid/tailwind.config.js"),
+    ],
+
     theme: {
         extend: {
             fontFamily: {

@@ -9,3 +9,8 @@ import './../../vendor/power-components/livewire-powergrid/dist/tailwind.css';
 Alpine.plugin(Clipboard)
 
 Livewire.start()
+
+
+Livewire.on('success', function(){
+    window.dispatchEvent(new CustomEvent("title='Success Notification'; type='success'; popToast()"));
+});
