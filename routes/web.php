@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -23,7 +24,8 @@ Route::middleware('auth')->group(function () {
 
     Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
-    Route::get('user', [UserController::class, 'index'])->name('user.index');
+        Route::get('user', [UserController::class, 'index'])->name('user.index');
+        Route::get('service', [ServiceController::class, 'index'])->name('service.index');
 
     });
 
@@ -33,4 +35,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

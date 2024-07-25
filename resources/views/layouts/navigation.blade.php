@@ -15,6 +15,16 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @can('manage-service')
+                        <x-nav-link :href="route('admin.service.index')" :active="request()->routeIs('admin.service.index')">
+                            @lang('service.title')
+                        </x-nav-link>
+                    @endcan
+                    @can('manage-user')
+                        <x-nav-link :href="route('admin.user.index')" :active="request()->routeIs('admin.user.index')">
+                            @lang('user.title')
+                        </x-nav-link>
+                    @endcan
                 </div>
             </div>
 
