@@ -15,35 +15,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-
-        $roles = collect([
-            'Super-Admin',
-            'Admin',
-            'Barber',
-            'Customer'
+        $this->call([
+            UserSeeder::class,
+            ServiceSeeder::class
         ]);
-
-        $roles->each(function ($role) {
-            Role::create(['name' => $role, 'guard_name' => 'web']);
-        });
-
-        $barbers = User::factory(10)->create();
-        $users = User::factory(30)->create();
-
-        $admin = User::factory()->create([
-            'name' => 'Emanuele',
-            'email' => 'admin@admin.com',
-            'password' => Hash::make('emanuele'),
-        ]);
-
-        $admin->assignRole(['Super-Admin']);
-
-        $barbers->each(function ($barber) {
-            $barber->assignRole(['Barber']);
-        });
-
-        $users->each(function ($user) {
-            $user->assignRole(['Customer']);
-        });
     }
 }

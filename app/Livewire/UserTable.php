@@ -38,7 +38,7 @@ final class UserTable extends PowerGridComponent
                 ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput(),
             Footer::make()
-                ->showPerPage()
+                ->showPerPage(perPage: 5, perPageValues: [0, 5, 10, 50, 100, 500])
                 ->showRecordCount(),
         ];
     }
@@ -66,6 +66,7 @@ final class UserTable extends PowerGridComponent
             ->add('id')
             ->add('name')
             ->add('email')
+            ->add('profile_image', fn(User $model) => '<div class="w-12 h-12"><img class="h-full w-full shrink-0 grow-0 rounded-full" src="' . asset('storage/profilePhotos/' . e($model->profile_image)) . '"></div>')
             ->add('role', function (User $model) use ($roles) {
                 return Blade::render('<x-select-role type="occurrence" :options=$options  :modelId=$userId  :selected=$selected/>', ['options' => $roles, 'userId' => intval($model->id), 'selected' => intval($model->roles[0]->id)]);
             })
@@ -83,6 +84,8 @@ final class UserTable extends PowerGridComponent
             Column::make('Email', 'email')
                 ->sortable()
                 ->searchable(),
+
+            Column::make('profile_image', 'profile_image'),
 
             Column::make('Role', 'role')
                 ->searchable(),
