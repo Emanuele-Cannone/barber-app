@@ -37,7 +37,6 @@ class DeleteModal extends Component
             try {
 
                 $modelInstance->delete();
-                $this->dispatch('notify');
 
             } catch (\Exception $e) {
 
@@ -45,8 +44,9 @@ class DeleteModal extends Component
             }
         }
 
-        $this->dispatch('recordInserted');
+        $this->dispatch('recordUpdated');
         $this->show = false;
+
     }
 
     public function render()

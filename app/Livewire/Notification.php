@@ -12,7 +12,7 @@ class Notification extends Component
     #[On('notify')]
     public function showComponent()
     {
-        $this->visible = true;
+        //
     }
 
     public function render()

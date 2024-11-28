@@ -38,7 +38,7 @@ final class ServiceTable extends PowerGridComponent
 
     public bool $showErrorBag = true;
 
-    public $listeners = ['recordInserted' => 'render'];
+    public $listeners = ['recordUpdated' => 'render'];
 
     public function setUp(): array
     {

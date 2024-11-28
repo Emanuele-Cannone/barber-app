@@ -1,20 +1,18 @@
 <?php
 
+use App\Http\Controllers\Admin\AppointmentController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
-use Laravel\Socialite\Facades\Socialite;
 
 Route::get('/', function () {
     return view('welcome');
 });
-
-
-Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])->name('redirectToGoogle');
-Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])->name('handleGoogleCallback');
-
+Route::get('/privacy', function () {
+    return view('privacy');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -27,7 +25,16 @@ Route::middleware('auth')->group(function () {
         Route::get('user', [UserController::class, 'index'])->name('user.index');
         Route::get('service', [ServiceController::class, 'index'])->name('service.index');
 
+        Route::group(['middleware' => [\Illuminate\Auth\Middleware\Authorize::using('manage-appointment')]], function () {
+            Route::resource('appointment', AppointmentController::class);
+        });
+
     });
+
+
+    Route::get('/appointments', [AppointmentController::class, 'index'])
+        ->name('appointment.index')
+    ->middleware('permission:see-appointment');
 
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

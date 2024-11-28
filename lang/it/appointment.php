@@ -9,7 +9,6 @@ return [
     |
     */
 
-    'title' => 'Utenti',
-    'add_user' => 'Aggiungi utente',
+    'title' => 'Appuntamenti',
 
 ];

@@ -28,14 +28,12 @@ final class UserTable extends PowerGridComponent
 
     public string $sortDirection = 'desc';
 
+    public $listeners = ['recordUpdated' => 'render'];
+
     public function setUp(): array
     {
-        // $this->showCheckBox();
 
         return [
-            Exportable::make('export')
-                ->striped()
-                ->type(Exportable::TYPE_XLS, Exportable::TYPE_CSV),
             Header::make()->showSearchInput(),
             Footer::make()
                 ->showPerPage(perPage: 5, perPageValues: [0, 5, 10, 50, 100, 500])
@@ -66,7 +64,6 @@ final class UserTable extends PowerGridComponent
             ->add('id')
             ->add('name')
             ->add('email')
-            ->add('profile_image', fn(User $model) => '<div class="w-12 h-12"><img class="h-full w-full shrink-0 grow-0 rounded-full" src="' . asset('storage/profilePhotos/' . e($model->profile_image)) . '"></div>')
             ->add('role', function (User $model) use ($roles) {
                 return Blade::render('<x-select-role type="occurrence" :options=$options  :modelId=$userId  :selected=$selected/>', ['options' => $roles, 'userId' => intval($model->id), 'selected' => intval($model->roles[0]->id)]);
             })
@@ -85,8 +82,6 @@ final class UserTable extends PowerGridComponent
                 ->sortable()
                 ->searchable(),
 
-            Column::make('profile_image', 'profile_image'),
-
             Column::make('Role', 'role')
                 ->searchable(),
 
@@ -101,28 +96,45 @@ final class UserTable extends PowerGridComponent
         ];
     }
 
-    #[\Livewire\Attributes\On('edit')]
+    #[On('edit')]
     public function edit($rowId): void
     {
-        $this->js('alert('.$rowId.')');
+        $this->js('alert(' . $rowId . ')');
     }
+
 
     public function actions(User $row): array
     {
         return [
             Button::add('edit')
-                ->slot('Edit: '.$row->id)
+                ->slot('Edit: ' . $row->id)
                 ->id()
                 ->class('pg-btn-white dark:ring-pg-primary-600 dark:border-pg-primary-600 dark:hover:bg-pg-primary-700 dark:ring-offset-pg-primary-800 dark:text-pg-primary-300 dark:bg-pg-primary-700')
-                ->dispatch('edit', ['rowId' => $row->id])
+                ->dispatch('edit', ['rowId' => $row->id]),
+
         ];
+    }
+
+    public function header(): array
+    {
+        return [
+            Button::add('add-user')
+                ->slot(__('user.add_user'))
+                ->class('rounded-md ring-1 transition focus-within:ring-2 dark:ring-pg-primary-600 dark:text-pg-primary-300 dark:bg-pg-primary-800 dark:placeholder-pg-primary-400 rounded-md border-0 bg-transparent py-2 px-3 ring-0 placeholder:text-gray-400 sm:text-sm sm:leading-6 w-auto')
+                ->dispatch('addUser', []),
+        ];
+    }
+
+    #[On('addUser')]
+    public function addUser(): void
+    {
+        $this->dispatch('showCreateUserModal');
     }
 
     #[On('roleChanged')]
     public function roleChanged($roleId, $modelId): void
     {
         User::find($modelId)->roles()->sync($roleId);
-        $this->dispatch('notify');
     }
 
     /*
