@@ -2,31 +2,33 @@
 
 namespace App\Livewire;
 
-use App\Models\Service;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
-class CreateServiceModal extends Component
+class CreateUserModal extends Component
 {
-    #[Validate('required|string|max:255|unique:services,name')]
+
+    #[Validate('required|string|max:255')]
     public string $name;
 
-    #[Validate('required|string')]
-    public string $description;
+    #[Validate('required|email|unique:users,email')]
+    public string $email;
 
-    #[Validate(['required','string','regex:/^(?:[01]\d|2[0-3]):[0-5]\d$/'])]
-    public string $duration;
+    public string $password;
 
     #[Validate('boolean')]
-    public bool $show = false;
+    public bool $show;
 
-    #[On('showCreateServiceModal')]
-    public function showCreateServiceModal()
+    #[On('showCreateUserModal')]
+    public function showCreateUserModal()
     {
-        $this->reset(['name', 'description', 'duration']);
+        $this->reset(['name', 'email']);
         $this->show = true;
     }
 
@@ -41,11 +43,13 @@ class CreateServiceModal extends Component
         try {
             DB::beginTransaction();
 
-            Service::create([
+            $user = User::create([
                 'name' => $this->name,
-                'description' => $this->description,
-                'duration' => $this->duration,
+                'email' => $this->email,
+                'password' => Hash::make($this->email.Carbon::now()->timestamp),
             ]);
+
+            $user->assignRole('Barber');
 
             DB::commit();
 
@@ -65,6 +69,6 @@ class CreateServiceModal extends Component
 
     public function render()
     {
-        return view('livewire.create-service-modal');
+        return view('livewire.create-user-modal');
     }
 }

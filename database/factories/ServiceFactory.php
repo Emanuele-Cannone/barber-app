@@ -18,8 +18,8 @@ class ServiceFactory extends Factory
     {
         return [
             'name' => $this->faker->words(3, true),
-            'description' => $this->faker->text(),
-            'duration' => $this->faker->time(),
+            'description' => $this->faker->text(50),
+            'duration' => $this->faker->time('H:i'),
             'active' => $this->faker->boolean(),
         ];
     }

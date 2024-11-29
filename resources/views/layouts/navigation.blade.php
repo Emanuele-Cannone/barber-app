@@ -25,6 +25,16 @@
                             @lang('user.title')
                         </x-nav-link>
                     @endcan
+                    @can('manage-appointment')
+                        <x-nav-link :href="route('admin.appointment.index')" :active="request()->routeIs('admin.appointment.index')">
+                            @lang('appointment.title')
+                        </x-nav-link>
+                    @endcan
+                    @if(auth()->user()->getAllPermissions()->count() === 1 && auth()->user()->getAllPermissions()->first()->name === 'see-appointment')
+                        <x-nav-link :href="route('appointment.index')" :active="request()->routeIs('appointment.index')">
+                            @lang('appointment.title')
+                        </x-nav-link>
+                    @endcan
                 </div>
             </div>
 
@@ -43,7 +53,7 @@
                         </button>
                     </x-slot>
 
-                    <x-slot name="content">
+                    <x-slot name="content" class="z-10">
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
