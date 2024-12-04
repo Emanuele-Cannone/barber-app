@@ -1,3 +1,6 @@
+@push('scripts')
+    @vite(['resources/js/calendar.js'])
+@endpush
 
 <x-app-layout>
 
