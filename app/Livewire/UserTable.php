@@ -43,7 +43,8 @@ final class UserTable extends PowerGridComponent
 
     public function datasource(): Builder
     {
-        return User::query()->with(['roles']);
+        return User::query()
+            ->with(['roles']);
     }
 
     public function relationSearch(): array
@@ -65,7 +66,13 @@ final class UserTable extends PowerGridComponent
             ->add('name')
             ->add('email')
             ->add('role', function (User $model) use ($roles) {
-                return Blade::render('<x-select-role type="occurrence" :options=$options  :modelId=$userId  :selected=$selected/>', ['options' => $roles, 'userId' => intval($model->id), 'selected' => intval($model->roles[0]->id)]);
+                return Blade::render('<x-select-role type="occurrence" :options=$options  :modelId=$userId  :selected=$selected />',
+                    [
+                        'options' => $roles,
+                        'userId' => intval($model->id),
+                        'selected' => intval($model->roles[0]->id)
+                    ]
+                );
             })
             ->add('created_at');
     }
@@ -134,7 +141,11 @@ final class UserTable extends PowerGridComponent
     #[On('roleChanged')]
     public function roleChanged($roleId, $modelId): void
     {
-        User::find($modelId)->roles()->sync($roleId);
+        $user = User::find($modelId);
+
+        if(!$user->hasRole('Super-Admin')){
+            $user->roles()->sync($roleId);
+        }
     }
 
     /*

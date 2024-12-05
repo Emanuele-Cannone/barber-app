@@ -1,6 +1,6 @@
-@props(['selected', 'modelId'])
+@props(['selected', 'modelId', 'readonly'])
 <div>
-    <select wire:change="roleChanged($event.target.value, {{ $modelId }})">
+    <select wire:change="roleChanged($event.target.value, {{ $modelId }})" {{ \App\Models\User::find($modelId)->hasRole('Super-Admin') ? 'disabled' : '' }}>
         @foreach ($options as $option)
             <option
                 value="{{ $option['id'] }}"
