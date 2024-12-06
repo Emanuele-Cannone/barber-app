@@ -17,11 +17,8 @@
     @stack('scripts')
 </head>
 <body class="font-sans antialiased">
-<div class="min-h-screen bg-gray-100 dark:bg-gray-900" x-data="toastNotification()">
+<div class="min-h-screen bg-gray-100 dark:bg-gray-900">
     @include('layouts.navigation')
-
-
-    @livewire('notification')
 
     <!-- Page Heading -->
     @isset($header)
@@ -37,23 +34,16 @@
         {{ $slot }}
     </main>
 
+    <script type="module">
+        Swal.fire({
+            title: 'Error!',
+            text: 'Do you want to continue',
+            icon: 'error',
+            confirmButtonText: 'Cool'
+        })
+    </script>
+
 </div>
-<script>
-    function toastNotification() {
-        return {
-            open: false,
-            title: "Toast Title",
-            message: "Toast message",
-            success: false,
-            openToast() {
-                this.open = true
-                setTimeout(() => {
-                    this.open = false
-                }, 5000)
-            }
-        }
-    }
-</script>
 @livewireScriptConfig
 </body>
 </html>

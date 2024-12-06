@@ -12,7 +12,7 @@ let calendar = new Calendar(calendarEl, {
     locales: [itLocale],
     locale: 'it',
     plugins: isBarber ? [listPlugin] : [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
-    initialView: isBarber ? 'listWeek' : 'timeGridWeek' ,
+    initialView: isBarber ? 'listWeek' : 'timeGridThreeDay' ,
     firstDay: 2,
     aspectRatio: 2,
     eventStartEditable: true,
@@ -83,7 +83,14 @@ let calendar = new Calendar(calendarEl, {
     headerToolbar: {
         left: appointmentPermission ? 'addEvent prev,next' : 'prev,next',
         center: 'title',
-        right: isBarber ? '' : 'dayGridMonth,timeGridWeek,listWeek'
+        right: isBarber ? '' : 'dayGridMonth,timeGridWeek,listWeek,timeGridThreeDay'
+    },
+    views: {
+        timeGridThreeDay: {
+            type: 'timeGrid',
+            duration: { days: 3 },
+            buttonText: '3 day'
+        }
     }
 });
 
