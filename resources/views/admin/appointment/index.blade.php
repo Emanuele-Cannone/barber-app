@@ -1,5 +1,27 @@
 @push('scripts')
     @vite(['resources/js/calendar.js'])
+    <script>
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('event-deleted', (e) => {
+                Swal.fire({
+                    icon: "success",
+                    title: e[0].message,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+
+                setTimeout(function () {
+                    location.reload();
+                }, 1500)
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        let appointments = @js($appointments);
+        let appointmentPermission = @js(auth()->user()->can('manage-appointment'));
+        let isBarber = @js(auth()->user()->getAllPermissions()->count() === 1 && auth()->user()->getAllPermissions()->first()->name === 'see-appointment')
+    </script>
 @endpush
 
 <x-app-layout>
@@ -15,6 +37,8 @@
         </div>
     </div>
 
+    <livewire:delete-appointment />
+
     <div x-data="{ modalOpen: false }"
          x-init="
             document.addEventListener('open-modal', () => {
@@ -24,7 +48,7 @@
          @keydown.escape.window="modalOpen = false"
          class="relative z-10 w-auto h-auto">
 
-        <livewire:event-modal />
+        <livewire:event-modal/>
 
 
         <template x-teleport="body">
@@ -57,13 +81,13 @@
                                         <input name="name" type="text" placeholder="Nome"
                                                class="mt-1 text-gray-500 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                         @error('name') <span
-                                                class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                                            class="text-red-500 text-sm">{{ $message }}</span> @enderror
                                     </div>
                                     <div class="mt-2">
                                         <input name="contact" type="tel" placeholder="Telefono" required
                                                class="mt-1 text-gray-500 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                         @error('contact') <span
-                                                class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                                            class="text-red-500 text-sm">{{ $message }}</span> @enderror
                                     </div>
                                     <div class="mt-2">
                                         <select name="service_id"
@@ -78,20 +102,20 @@
                                               placeholder="Descrizione del servizio"
                                               class="mt-1 text-gray-500 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
                                         @error('description') <span
-                                                class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                                            class="text-red-500 text-sm">{{ $message }}</span> @enderror
                                     </div>
                                     <div class="flex justify-between">
                                         <div class="mt-2">
                                             <input name="start" type="date"
                                                    class="mt-1 text-gray-500 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                             @error('date') <span
-                                                    class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                                                class="text-red-500 text-sm">{{ $message }}</span> @enderror
                                         </div>
                                         <div class="mt-2">
                                             <input name="time" type="time"
                                                    class="mt-1 text-gray-500 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                             @error('time') <span
-                                                    class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                                                class="text-red-500 text-sm">{{ $message }}</span> @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -115,11 +139,17 @@
     </div>
 
 
-    <script type="text/javascript">
-        let appointments = @js($appointments);
-        let appointmentPermission = @js(auth()->user()->can('manage-appointment'));
-        let isBarber = @js(auth()->user()->getAllPermissions()->count() === 1 && auth()->user()->getAllPermissions()->first()->name === 'see-appointment')
-    </script>
+    @if(session('success'))
+        <script type="module">
+            Swal.fire({
+                icon: "success",
+                title: '{{ session('success') }}',
+                showConfirmButton: false,
+                timer: 1500
+            })
+        </script>
+    @endif
+
 
 </x-app-layout>
 

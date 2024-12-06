@@ -29,46 +29,22 @@ let calendar = new Calendar(calendarEl, {
             return;
         }
 
-        Livewire.dispatch('openEventModal', { event: info });
+        Swal.fire({
+            title: info.event.title,
+            text: info.event.extendedProps.description,
+            showDenyButton: false,
+            showCancelButton: true,
+            confirmButtonText: "Elimina",
+            cancelButtonText: "Annulla"
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                Livewire.dispatch('delete-appointment', { id: info.event.id });
+            }
+        });
+
 
     },
-    // Questo metodo viene chiamato quando ogni evento viene disegnato
-    eventDidMount: function(info) {
-        // Colora in base allo status
-        /*
-        switch(info.event.extendedProps.barberColor) {
-            case 'completed':
-                info.el.style.backgroundColor = 'green';
-                break;
-            case 'pending':
-                info.el.style.backgroundColor = 'orange';
-                break;
-            case 'in-progress':
-                info.el.style.backgroundColor = 'blue';
-                break;
-            default:
-                info.el.style.backgroundColor = 'gray'; // Default color
-        }
-        */
-    },
-    /* events: [
-        {
-            title: 'BCH237',
-            start: '2024-09-29T10:30:00',
-            end: '2024-09-29T11:30:00',
-            extendedProps: {
-                department: 'BioChemistry'
-            },
-        },
-        {
-            title: 'BCH237',
-            start: '2024-09-20T10:30:00',
-            end: '2024-09-20T11:30:00',
-            extendedProps: {
-                department: 'BioChemistry'
-            },
-        }
-    ], */
     events: appointments,
     customButtons: {
         addEvent: {
