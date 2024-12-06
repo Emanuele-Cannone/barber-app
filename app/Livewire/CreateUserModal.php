@@ -51,6 +51,8 @@ class CreateUserModal extends Component
 
             $user->assignRole('Barber');
 
+            $this->dispatch('user-created', ['message' => 'Utente creato correttamente!']);
+
             DB::commit();
 
 

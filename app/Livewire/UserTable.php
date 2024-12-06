@@ -145,6 +145,7 @@ final class UserTable extends PowerGridComponent
 
         if(!$user->hasRole('Super-Admin')){
             $user->roles()->sync($roleId);
+            $this->dispatch('role-changed', ['message' => 'Ruolo cambiato correttamente!']);
         }
     }
 

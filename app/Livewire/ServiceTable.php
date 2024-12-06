@@ -152,8 +152,8 @@ final class ServiceTable extends PowerGridComponent
     protected function messages()
     {
         return [
-            'duration.*.regex'     => 'Invalid format: :values',
-            'name.*.unique' => 'Name already listed.',
+            'duration.*.regex'      => 'Invalid format: :values',
+            'name.*.unique'         => 'Name already listed.',
         ];
     }
 
