@@ -32,7 +32,9 @@ class AppointmentController extends Controller
                     'title' => $appointment->name,
                     'start' => $appointment->start,
                     'description' => $appointment->description,
-                    'end' => $appointment->end]
+                    'contact' => $appointment->contact,
+                    'end' => $appointment->end
+                ]
                 )->toArray(),
                 'barbers' => User::whereHas('roles', function ($query) {
                     $query->where('name', 'barber');

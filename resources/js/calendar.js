@@ -29,9 +29,11 @@ let calendar = new Calendar(calendarEl, {
             return;
         }
 
+        console.log(info.event)
+
         Swal.fire({
             title: info.event.title,
-            text: info.event.extendedProps.description,
+            html: info.event.extendedProps.description + "<br/> Tel: " + info.event.extendedProps.contact,
             showDenyButton: false,
             showCancelButton: true,
             confirmButtonText: "Elimina",
