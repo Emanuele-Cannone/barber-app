@@ -11,6 +11,7 @@ let calendarEl = document.getElementById('calendar');
 let calendar = new Calendar(calendarEl, {
     locales: [itLocale],
     locale: 'it',
+    nowIndicator: true,
     plugins: isBarber ? [listPlugin] : [dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin],
     initialView: isBarber ? 'listWeek' : 'timeGridThreeDay' ,
     firstDay: 2,
@@ -19,7 +20,7 @@ let calendar = new Calendar(calendarEl, {
     eventResizableFromStart: true,
     allDaySlot: false,
     displayEventTime: false,
-    timeZone: 'UTC',
+    timeZone: 'Europe/Rome',
     eventClick: function(info) {
 
         let currentView = calendar.view.type;

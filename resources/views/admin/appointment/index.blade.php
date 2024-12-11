@@ -25,8 +25,6 @@
 @endpush
 
 <x-app-layout>
-
-
     <div class="py-4">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -37,7 +35,7 @@
         </div>
     </div>
 
-    <livewire:delete-appointment />
+    <livewire:delete-appointment/>
 
     <div x-data="{ modalOpen: false }"
          x-init="
@@ -104,6 +102,43 @@
                                         @error('description') <span
                                             class="text-red-500 text-sm">{{ $message }}</span> @enderror
                                     </div>
+                                    <div class="mt-2">
+                                        <div class="relative max-w-xl flex w-full flex-col rounded-xl bg-white shadow">
+                                            <nav class="flex min-w-[240px] flex-row gap-1 p-2">
+                                                @foreach($barbers as $barber)
+                                                    <div
+                                                        role="button"
+                                                        class="flex w-full items-center rounded-lg p-0 transition-all hover:bg-slate-100 focus:bg-slate-100 active:bg-slate-100"
+                                                    >
+                                                        <label
+                                                            for="{{'B_'.$barber->id}}"
+                                                            class="flex w-full cursor-pointer items-center px-3 py-2"
+                                                        >
+                                                            <div class="inline-flex items-center">
+                                                                <label class="relative flex items-center cursor-pointer"
+                                                                       for="{{'B_'.$barber->id}}">
+                                                                    <input
+                                                                        name="barber_id"
+                                                                        type="radio"
+                                                                        class="peer h-5 w-5 cursor-pointer appearance-none rounded-full border border-slate-300 checked:border-slate-400 transition-all"
+                                                                        id="{{'B_'.$barber->id}}"
+                                                                        value="{{ $barber->id }}"
+                                                                    />
+                                                                    <span
+                                                                        class="absolute bg-slate-800 w-3 h-3 rounded-full opacity-0 peer-checked:opacity-100 transition-opacity duration-200 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></span>
+                                                                </label>
+                                                                <label
+                                                                    class="ml-2 text-slate-600 cursor-pointer text-sm"
+                                                                    for="{{'B_'.$barber->id}}">
+                                                                    {{ $barber->name }}
+                                                                </label>
+                                                            </div>
+                                                        </label>
+                                                    </div>
+                                                @endforeach
+                                            </nav>
+                                        </div>
+                                    </div>
                                     <div class="flex justify-between">
                                         <div class="mt-2">
                                             <input name="start" type="date"
@@ -120,15 +155,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="mt-5 sm:mt-6">
-                                <button type="submit"
-                                        class="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:text-sm">
-                                    Crea
-                                </button>
-                                <button type="button"
-                                        class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:text-sm"
-                                        @click="modalOpen = false">Annulla
-                                </button>
+                            <div class="mt-5 sm:mt-6 flex justify-between">
+                                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Crea</button>
+
+                                <button type="button" @click="modalOpen = false" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Annulla</button>
+
                             </div>
                         </form>
 

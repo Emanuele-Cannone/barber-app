@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 
+use App\BarberEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AppointmentStoreRequest;
 use App\Models\Appointment;
@@ -31,7 +32,7 @@ class AppointmentController extends Controller
                     'id' => $appointment->id,
                     'title' => $appointment->name,
                     'start' => $appointment->start,
-                    'description' => $appointment->description,
+                    'description' => $appointment->description ?? '',
                     'contact' => $appointment->contact,
                     'end' => $appointment->end
                 ]
