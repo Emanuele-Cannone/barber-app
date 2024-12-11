@@ -4,6 +4,9 @@ namespace App\Livewire;
 
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -25,19 +28,28 @@ class CreateUserModal extends Component
     #[Validate('boolean')]
     public bool $show;
 
+    /**
+     * @return void
+     */
     #[On('showCreateUserModal')]
-    public function showCreateUserModal()
+    public function showCreateUserModal(): void
     {
         $this->reset(['name', 'email']);
         $this->show = true;
     }
 
-    public function closeModal()
+    /**
+     * @return void
+     */
+    public function closeModal(): void
     {
-        $this->show = false; // Nasconde la modale
+        $this->show = false;
     }
 
-    public function create()
+    /**
+     * @return void
+     */
+    public function create(): void
     {
 
         try {
@@ -69,7 +81,10 @@ class CreateUserModal extends Component
     }
 
 
-    public function render()
+    /**
+     * @return View
+     */
+    public function render(): View
     {
         return view('livewire.create-user-modal');
     }
