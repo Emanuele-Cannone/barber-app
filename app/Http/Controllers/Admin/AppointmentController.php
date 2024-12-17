@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-
-use App\BarberEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AppointmentStoreRequest;
 use App\Models\Appointment;
@@ -38,7 +36,8 @@ class AppointmentController extends Controller
                 ]
                 )->toArray(),
                 'barbers' => User::whereHas('roles', function ($query) {
-                    $query->where('name', 'barber');
+                    $query->where('name', 'barber')
+                    ->orWhere('name', 'admin');
                 })->get(),
                 'services' => Service::all(),
             ]);
